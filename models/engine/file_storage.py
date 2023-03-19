@@ -61,7 +61,6 @@ class FileStorage:
         """ delete obj from __objects """
         if obj != None:
             key = "{}.{}".format(type(obj).__name__, obj.id)
-            print(key)
             if FileStorage.__objects[key]: # checks if obj is inside __objects 
                 del FileStorage.__objects[key]
                 self.save()
