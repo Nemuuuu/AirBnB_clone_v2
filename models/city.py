@@ -11,4 +11,4 @@ class City(BaseModel, Base):
     state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
 
     # class attribute places represent a relationship with the class Place. If the City object is deleted, all linked Place objects must be automatically deleted. Also, the reference from a Place object to his City should be named cities
-    places = relationship('Place', backref = cities, cascade = 'all, delete')
+    places = relationship('Place', backref = 'cities', cascade = 'all, delete')
