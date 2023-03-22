@@ -10,29 +10,41 @@ class FileStorage:
 
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
-        if cls is not None:
-            if type(cls) == str:
-                cls = eval(cls)
-            new_dict = {}
+        from models.base_model import BaseModel
+        from models.user import User
+        from models.place import Place
+        from models.state import State
+        from models.city import City
+        from models.amenity import Amenity
+        from models.review import Review
+
+        output = {}
+        if cls:
+            cls = str(cls).split('.')[2].replace('"', '').strip("'>")
             for key, value in self.__objects.items():
-                # if self.__class__.__name__ == cls:
-                if type(value) == cls:
-                    new_dict[key] = value
-            return new_dict
+                _cls = key.partition('.')[0]
+                if _cls == cls:
+                    output.update({key: value})
         else:
-            return self.__objects
+            output = self.__objects
+        return output
+
+    def delete(self, obj=None):
+        """Removes an object from the storage dictionary"""
+        if obj is not None:
+            obj_key = obj.to_dict()['__class__'] + '.' + obj.id
+            if obj_key in self.__objects.keys():
+                del self.__objects[obj_key]
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
-        if obj:
-            key = "{}.{}".format(type(obj).__name__, obj.id)
-            self.__objects[key] = obj
+        self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
 
     def save(self):
         """Saves storage dictionary to file"""
-        with open(FileStorage.__file_path, 'w') as f:
+        with open(self.__file_path, 'w') as f:
             temp = {}
-            temp.update(FileStorage.__objects)
+            temp.update(self.__objects)
             for key, val in temp.items():
                 temp[key] = val.to_dict()
             json.dump(temp, f)
@@ -61,10 +73,6 @@ class FileStorage:
         except FileNotFoundError:
             pass
 
-    def delete(self, obj=None):
-        """Delete objects"""
-        if obj:
-            key = "{}.{}".format(type(obj).__name__, obj.id)
-            if self.__objects[key]:
-                del FileStorage.__objects[key]
-                self.save()
+    def close(self):
+        """ Deserialize JSON file, hence closing the session """
+        self.reload()
