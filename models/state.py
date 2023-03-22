@@ -11,7 +11,7 @@ class State(BaseModel, Base):
     name = Column(String(128), nullable=False)
 
     if getenv('HBNB_TYPE_STORAGE') == 'db': # DB storage
-        cities = relationship('City', backref='state' cascase='all, delete')
+        cities = relationship('City', backref='state', cascase='all, delete')
     else: # file storage
         @property
         def cities(self):
