@@ -1,20 +1,25 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
+import os
 from models.base_model import BaseModel, Base
-from sqlalchemy import Table, Column, Float, Integer, String, ForeignKey
+# from models.review import Review
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, String, Table, ForeignKey, Integer, Float
 from sqlalchemy.orm import relationship
-from os import getenv
 
 
+store_type = os.getenv('HBNB_TYPE_STORAGE')
 place_amenity = Table('place_amenity', Base.metadata,
-                      Column('amenity_id', String(60),
-                             ForeignKey('amenities.id'),
-                             primary_key=True,
-                             nullable=False),
                       Column('place_id', String(60),
                              ForeignKey('places.id'),
                              primary_key=True,
-                             nullable=False)
+                             nullable=False
+                             ),
+                      Column('amenity_id', String(60),
+                             ForeignKey('amenities.id'),
+                             primary_key=True,
+                             nullable=False
+                             )
                       )
 
 
@@ -24,52 +29,40 @@ class Place(BaseModel, Base):
     city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
     name = Column(String(128), nullable=False)
-    description = Column(String(1024), nullable=True)
+    description = Column(String(1024))
     number_rooms = Column(Integer, nullable=False, default=0)
     number_bathrooms = Column(Integer, nullable=False, default=0)
     max_guest = Column(Integer, nullable=False, default=0)
     price_by_night = Column(Integer, nullable=False, default=0)
-    latitude = Column(Float, nullable=True)
-    longitude = Column(Float, nullable=True)
+    latitude = Column(Float)
+    longitude = Column(Float)
     amenity_ids = []
 
-    if getenv('HBNB_TYPE_STORAGE') == 'db':
-        reviews = relationship("Review", backref="place",
-                               cascade="all, delete")
-        amenities = relationship('Amenity',
-                                 secondary="place_amenity",
-                                 viewonly=False, backref="places")
+    if store_type == 'db':
+        reviews = relationship('Review', cascade='all, delete',
+                               backref='place')
 
+        amenities = relationship('Amenity', secondary=place_amenity,
+                                 viewonly=False,
+                                 back_populates='place_amenities')
     else:
         @property
         def reviews(self):
-            """Getter attribute cities that returns the list of Review"""
+            """Returns a list of reviews for the current place"""
             from models import storage
-            from models.review import Review
-            my_list = []
-            all_reviews = storage.all(Review)
-            for review in all_reviews.values():
+            review_list = []
+            for review in storage.all(Review).values():
                 if review.place_id == self.id:
-                    my_list.append(review)
-            return my_list
+                    review_list.append(review)
+            return review_list
 
         @property
         def amenities(self):
-            """Getter attribute cities that returns the list of Amenity"""
-            from models import storage
-            from models.amenity import Amenity
-            my_list = []
-            all_amenities = storage.all(Amenity)
-            for amenities in all_amenities.values():
-                if amenities.amenity_ids == self.id:
-                    my_list.append(amenities)
-            return my_list
+            """Returns list of amenities available"""
+            return self.amenity_ids
 
         @amenities.setter
-        def amenities(self, obj=None):
-            """Setter atrributes for amenities"""
-            from models.amenity import Amenity
-            if type(obj) is Amenity:
+        def amenities(self, obj):
+            """Appends a new amenity to the list of amenities"""
+            if type(obj) is Amenity and obj.id not in self.amenity_ids:
                 self.amenity_ids.append(obj.id)
-            # else:
-            #    return
