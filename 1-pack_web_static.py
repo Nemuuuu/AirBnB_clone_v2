@@ -9,7 +9,7 @@ def do_pack():
     local('mkdir -p versions')
     file_name = 'web_static_{}.tgz'.format(now)
     archive_path = os.path.join("versions", file_name)
-    check = local('tar -czvf {} web_static_'.format(archive_path))
+    check = local('tar -cvzf {} web_static_'.format(archive_path))
     if check.failed:
         return None
     else:
