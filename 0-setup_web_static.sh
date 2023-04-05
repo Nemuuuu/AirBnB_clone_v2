@@ -34,7 +34,6 @@ sudo chown -R ubuntu:ubuntu /data/
 #setup nginx
 sudo sed -i '/listen 80 default_server/a location /hbnb_static {
                 alias /data/web_static/current;
-                index index.html;
                 # First attempt to serve request as file, then
                 # as directory, then fall back to displaying a >
                 try_files $uri $uri/ =404;
