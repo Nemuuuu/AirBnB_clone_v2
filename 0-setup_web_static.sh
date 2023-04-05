@@ -7,7 +7,7 @@ sudo apt-get install nginx -y
 
 #create folders
 sudo mkdir -p /data/web_static/releases/test/
-sudo mkidr -p /data/web_static/shared/
+sudo mkdir -p /data/web_static/shared/
 
 #create html file with fake content
 echo "
