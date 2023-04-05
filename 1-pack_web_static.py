@@ -3,8 +3,10 @@
 from fabric.api import *
 from datetime import datetime
 import os
+
 def do_pack():
     """ compressing files in archive """
+
     now = datetime.now().strftime('%Y%m%d%H%M%S')
     local('mkdir -p versions')
     file_name = 'web_static_{}.tgz'.format(now)
