@@ -25,7 +25,7 @@ echo "
 "  > sudo /data/web_static/releases/test/index.html
 
 #create symblic link
-sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
+sudo ln -sfn /data/web_static/releases/test/ /data/web_static/current
 
 #give ownership to ubuntu user and group recursively
 sudo chown -R ubuntu:ubuntu /data/
