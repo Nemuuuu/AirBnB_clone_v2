@@ -22,7 +22,7 @@ echo "
         </body>
 
 </html>
-"  > sudo /data/web_static/releases/test/index.html
+" | sudo tee /data/web_static/releases/test/index.html
 
 #create symblic link
 sudo ln -sfn /data/web_static/releases/test/ /data/web_static/current
