@@ -32,12 +32,7 @@ sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 sudo chown -R ubuntu:ubuntu /data/
 
 #setup nginx
-sudo sed -i '/listen 80 default_server/a location /hbnb_static {
-                alias /data/web_static/current;
-                # First attempt to serve request as file, then
-                # as directory, then fall back to displaying a >
-                try_files $uri $uri/ =404;
-        }' /etc/nginx/sites-available/default
+sudo sed -i '/listen 80 default_server/a location /hbnb_static {alias /data/web_static/current;}' /etc/nginx/sites-available/default
 
 # restart nginx
 sudo service nginx restart
