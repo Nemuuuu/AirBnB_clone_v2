@@ -8,7 +8,7 @@ def do_pack():
     now = datetime.now().strftime('%Y%m%d%H%M%S')
     local('mkdir -p versions')
     file_name = 'versions/web_static_'+now+'.tgz'
-    check = local('tar -cvzf {} web_static_'.format(file_name))
+    check = local('tar -czvf {} web_static_'.format(file_name))
     if check.failed:
         return None
     else:
