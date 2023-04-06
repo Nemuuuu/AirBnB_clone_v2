@@ -47,14 +47,7 @@ def deploy():
     """full deploy"""
     
     path = do_pack()
-    print(path)
-    if path is None:
+    if path:
+        return do_deploy(path)
+    else:
         return False
-
-    return do_deploy(path)
-
-
-deploy()
-
-
-
