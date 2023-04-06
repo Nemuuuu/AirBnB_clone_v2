@@ -11,8 +11,7 @@ sudo mkdir -p /data/web_static/shared/
 
 #create html file with fake content
 echo "
-<!DOCTYPE html>
-<html lang="en">
+<html>
         <head>
                 <meta charset="utf-8">
                 <title>Document</title>
@@ -31,7 +30,7 @@ sudo ln -sfn /data/web_static/releases/test/ /data/web_static/current
 sudo chown -R ubuntu:ubuntu /data/
 
 #setup nginx
-sudo sed -i '/listen 80 default_server/a location /hbnb_static {alias /data/web_static/current;}' /etc/nginx/sites-available/default
+sudo sed -i '/listen 80 default_server;/a \\\n\tlocation /hbnb_static/ {\n\talias /data/web_static/current/;\n\t\n}' /etc/nginx/sites-available/default
 
 # restart nginx
 sudo service nginx restart
