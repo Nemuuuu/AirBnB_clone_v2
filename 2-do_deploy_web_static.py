@@ -9,6 +9,7 @@ import os
 env.hosts = ['34.207.188.143', '100.25.160.228']
 
 def do_deploy(archive_path):
+    """ deploy """
     if not os.path.exists(archive_path):
         return False
     data_path = '/data/web_static/releases/'
