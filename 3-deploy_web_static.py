@@ -3,21 +3,16 @@
 fabric script that creates and distrubutes an archive to my server
 """
 from fabric.contrib import files
-from fabric.api import env, run , local
+from fabric.api import env, run , local, put
 from fabric.operations import put
 from datetime import datetime
 import os
 
 
-from fabric.api import run, put, env, local
-from datetime import datetime
-import os
-
 env.hosts = ['34.207.188.143', '100.25.160.228']
 
 
 def do_pack():
-
     """Create an archive from the contents of web_static folder."""
 
     now = datetime.utcnow().strftime('%Y%m%d%H%M%S')
