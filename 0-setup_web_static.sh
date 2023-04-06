@@ -28,9 +28,7 @@ sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 sudo chown -R ubuntu:ubuntu /data/
 
 #setup nginx
-sudo sed -i ' /listen 80 default_server ; /a \
-	\n\tlocation /hbnb_static/ { \n\talias \
-       	/data/web_static/current/;\n\t\n } ' /etc/nginx/sites-available/default
+sudo sed -i "/listen 80 default_server;/ a \\\n\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}\n" /etc/nginx/sites-available/default
 
 # restart nginx
 sudo service nginx restart
