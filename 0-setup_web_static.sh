@@ -13,8 +13,6 @@ sudo mkdir -p /data/web_static/shared/
 echo "
 <html>
         <head>
-                <meta charset="utf-8">
-                <title>Document</title>
         </head>
         <body>
                 <h1>Welcome to our Page</h1>
