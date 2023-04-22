@@ -18,7 +18,7 @@ def hbnb():
 def c(text):
     """display “C ” followed by the value of the text variable (replace underscore _ symbols with a space"""
     text = text.replace('_', ' ')
-    return 'c {}'.format(text)
+    return 'C {}'.format(text)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
