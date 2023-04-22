@@ -9,7 +9,7 @@ def hello():
     """ display Hello HBNB! """
     return "Hello HBNB!"
 
-@app.rout('/hbnb')
+@app.route('/hbnb')
 def hbnb():
     """display HBNB """
     return "HBNB"
