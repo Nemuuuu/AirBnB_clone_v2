@@ -115,7 +115,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-         try:
+        try:
             arguments = args.split(" ")
             # arguments[0]) --> Class name
             objects = eval("{}()".format(arguments[0]))
